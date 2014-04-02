@@ -6,6 +6,7 @@
 package SVGPath2TextTest;
 
 import static SVGPath2TextTest.AddViewport.setViewBoxPageSize;
+import static SVGPath2TextTest.ExtraktLettersFromPath.getUri;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +16,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -63,18 +65,19 @@ public class RemoveAllRedPathes {
 
         // A frame for the canvas to live in
         jFrame = new JFrame("uri");
-        jFrame.setSize(800, 400);
+        jFrame.setSize(800, 800);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLayout(new GridLayout());
         jFrame.getContentPane().add(canvas);
 
         jFrame.setVisible(true);
-        uri = new File("C:Temp").toURI().toString();
+        String name = ExtraktLettersFromPath.getUri().substring(6, ExtraktLettersFromPath.getUri().indexOf(".svg"))
+                + "_path_text.svg";
 //                (ExtraktLettersFromPath.getUri()).toURL().toString();
         ///////////////////////////////////////////////////////////////////////////
         String parser = XMLResourceDescriptor.getXMLParserClassName();
         SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
-//            URI uri = new File(name).toURI(); // the URI of your SVG document
+        String uri = new File(name).toURI().toString(); // the URI of your SVG document
         doc = (SVGDocument) f.createDocument(uri);
         userAgent = new UserAgentAdapter();
         loader = new DocumentLoader(userAgent);
@@ -99,16 +102,16 @@ public class RemoveAllRedPathes {
             }
         }
 
-//        // Remove the Batik sample mark 'use' element.
-//        for (Node n = svgRoot.getLastChild();
-//                n != null;
-//                n = n.getPreviousSibling()) {
-//            if (n.getNodeType() == Node.ELEMENT_NODE
-//                    && n.getLocalName().equals("use")) {
-//                svgRoot.removeChild(n);
-//                break;
-//            }
-//        }
+        // Remove the Batik sample mark 'use' element.
+        for (Node n = myRootSVGElement.getLastChild();
+                n != null;
+                n = n.getPreviousSibling()) {
+            if (n.getNodeType() == Node.ELEMENT_NODE
+                    && n.getLocalName().equals("use")) {
+                myRootSVGElement.removeChild(n);
+                break;
+            }
+        }
         // Display the document.
         canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
         canvas.setDocument(doc);
@@ -123,11 +126,13 @@ public class RemoveAllRedPathes {
         
         for (int i = nlPath.getLength() - 1; i >= 0; i--) {
             SVGOMPathElement nlElem = (SVGOMPathElement) nlPath.item(i);
-            System.out.print("Untersuche: "+ nlElem.getAttributeNS(null, "id"));
-            String attrRotate = nlElem.getAttributeNS(null, "style");
-            if ( attrRotate.equals( ExtraktLettersFromPath.getStrColor4Done()[1] )) {
+            System.out.print("Inspecting: "+ nlElem.getAttributeNS(null, "id"));
+            String attrFill = nlElem.getAttributeNS(null, "fill");
+            String attrStyle = nlElem.getAttributeNS(null, "style");
+            if ( attrFill.equals( ExtraktLettersFromPath.getStrColor4Done()[0]) || 
+                    attrStyle.equals( ExtraktLettersFromPath.getStrColor4Done()[1] )) {
                 nlElem.getParentNode().removeChild(nlElem);
-                System.out.println("\t...gelöscht");
+                System.out.println("\t...deleted");
             }
             else {
                 System.out.println();
@@ -141,7 +146,8 @@ public class RemoveAllRedPathes {
     private static void saveSVG() {
         setViewBoxPageSize(myRootSVGElement, rootGN, doc);
         OutputStream os = null;
-        String strOutPutFile = uri.substring(0, uri.indexOf("neu.svg")) + "text.svg";
+        String strOutPutFile = ExtraktLettersFromPath.getUri().substring(6
+                , ExtraktLettersFromPath.getUri().indexOf(".svg")) + "_text.svg";
         try {
             os = new FileOutputStream(strOutPutFile);
 //                ("C:\\Users\\Martin\\Programming\\git\\SVG2Text_Netbeans\\Daten\\test.svg");

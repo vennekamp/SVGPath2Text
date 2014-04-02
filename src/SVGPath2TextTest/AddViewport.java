@@ -6,6 +6,7 @@
 package SVGPath2TextTest;
 
 import java.awt.geom.Rectangle2D;
+import javax.swing.JOptionPane;
 import org.apache.batik.dom.svg.SVGOMSVGElement;
 import org.apache.batik.gvt.GraphicsNode;
 import org.w3c.dom.DOMException;
@@ -19,8 +20,15 @@ public class AddViewport {
         // Calculate the viewport.
         GraphicsNode gn;
         Rectangle2D rd = null;
-        Node ndbckgrd = myRootSVGElement.getElementById("canvas_background");
-        if ( ndbckgrd != null) ndbckgrd.getParentNode().removeChild(ndbckgrd);
+        try{
+            Node ndbckgrd = myRootSVGElement.getElementById("canvas_background");
+            if ( ndbckgrd != null) ndbckgrd.getParentNode().removeChild(ndbckgrd);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "No Background - have you open / edited / saved the file in INKSPACE \r\n"
+                    + "and copy / pasted it in METHOD DRAW to 'normalize' the SVG-data?", "ERROR"
+                    , JOptionPane.OK_CANCEL_OPTION);
+        }
         rd = rootGN.getTransformedSensitiveBounds(rootGN.getTransform());
 
         int minX = (int)rd.getX() - 1;

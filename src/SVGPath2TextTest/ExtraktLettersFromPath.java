@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Map;
@@ -75,11 +74,7 @@ public class ExtraktLettersFromPath {
     
     private static String uri;
 
-    /**
-     * @param args
-     * @throws java.io.IOException
-     */
-    public static void main(String[] args) throws IOException {
+    public static String getUri() {
         URL url
             = ExtraktLettersFromPath.class.getProtectionDomain().getCodeSource().getLocation();
         
@@ -90,6 +85,14 @@ public class ExtraktLettersFromPath {
         }
         String folder = new File(jarPath).getParentFile().getParentFile().getPath();
         uri = new File( folder, "/data/demo_test.svg" ).toURI().toString();
+        return uri;
+    }
+    /**
+     * @param args
+     * @throws java.io.IOException
+     */
+    public static void main(String[] args) throws IOException {
+        uri = getUri();
         Templateletter.initPaths();
         PathParser_SVG2Int svg2Int = new PathParser_SVG2Int();
         ///////////////////////////////////////////////////////////////////////////
@@ -220,17 +223,16 @@ public class ExtraktLettersFromPath {
             svgNS
         );  
 
-        saveSVG(true);
+        saveSVG(true, getUri().substring(6, getUri().indexOf(".svg")) + "_path_text.svg");
         System.out.println("Number of recordnized letters: "
                 + MySVGwordPath.getAllWordsByIDs().size());
         jFrame.dispose();
 
     }
 
-    public static void saveSVG( boolean setViewBox ) {
+    public static void saveSVG( boolean setViewBox, String out ) {
         if (setViewBox) setViewBoxPageSize(myRootSVGElement, rootGN, doc);
         OutputStream os = null;
-        String out = uri.substring(6, uri.indexOf(".svg")) + "_path_text.svg";
         try {
 //            os = new FileOutputStream
 //         ("D:\\Users\\Martin\\Programming\\git\\SVGPath2Text\\Daten\\test.svg");
