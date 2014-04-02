@@ -11,3 +11,5 @@ This is just a dirty hack ;-) It currently only works for the font  "Comic Sans 
 Uses BATIK to convert Glyphs BACK to text. (http://xmlgraphics.apache.org/batik/)
 
 The SVG File needs to be 'norrmalized' by copy it to the Source editor of Method Draw (http://editor.method.ac/) into the source editor (View --> Source) and paste it back into the SVG File.
+
+To use this HACK copy it to NETBEANS (8 w/ Java 8) and run "ExtraktLettersFromPath.java" then edit the word puzzle in INKSPACE (http://www.inkscape.org/de/) and run "RemoveAllRedPathes.java" to remove all obsolete pathes.
