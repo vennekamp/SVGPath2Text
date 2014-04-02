@@ -23,10 +23,10 @@ public class Templateletter {
         return fontName;
     }
 
-    private final static int fontSize = 7;
-    public static int getFontSize() {
-        return fontSize;
-    }
+//    private final static int fontSize = 7;
+//    public static int getFontSize() {
+//        return fontSize;
+//    }
     private static final LinkedHashMap<Character, String> letterPaths 
             = new LinkedHashMap<Character, String>();
     private static final LinkedHashMap<Character, MySVGletterPath> letterSVGPaths 

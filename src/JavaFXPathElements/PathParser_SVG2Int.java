@@ -1,6 +1,5 @@
 package JavaFXPathElements;
 
-import JavaFXPathElements.JavaFXPathElementHandler;
 import org.apache.batik.dom.svg.SVGOMPathElement;
 import org.apache.batik.parser.PathParser;
 import org.w3c.dom.NamedNodeMap;

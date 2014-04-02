@@ -5,11 +5,6 @@
  */
 package JavaFXPathElements;
 
-import JavaFXPathElements.MySVGCubicCurveTo;
-import JavaFXPathElements.MySVGLineTo;
-import JavaFXPathElements.MySVGClosePath;
-import JavaFXPathElements.MySVGMoveto;
-import JavaFXPathElements.MySVGShortHandCubicCurveTo;
 import LetterTamplates.Templateletter;
 import java.util.LinkedHashMap;
 import javafx.geometry.Point2D;

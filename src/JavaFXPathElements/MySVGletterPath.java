@@ -1,8 +1,5 @@
 package JavaFXPathElements;
 
-import JavaFXPathElements.MySVGCubicCurveTo;
-import JavaFXPathElements.MySVGLineTo;
-import JavaFXPathElements.MySVGMoveto;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.geometry.Point2D;
@@ -11,10 +8,10 @@ import javafx.scene.shape.PathElement;
 
 public class MySVGletterPath extends Path {
 
-    private final static int fontSize = 16;
-    public static int getFontSize() {
-        return fontSize;
-    }
+//    private final static int fontSize = 16;
+//    public static int getFontSize() {
+//        return fontSize;
+//    }
     
     private String strOfPathElements = "";
     private Character chrMyElement = null;

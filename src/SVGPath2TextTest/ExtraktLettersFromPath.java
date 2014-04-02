@@ -43,6 +43,12 @@ import org.apache.batik.gvt.GraphicsNode;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.apache.batik.swing.JSVGCanvas;
+import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
+import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
+import org.apache.batik.swing.svg.GVTTreeBuilderAdapter;
+import org.apache.batik.swing.svg.GVTTreeBuilderEvent;
+import org.apache.batik.swing.svg.SVGDocumentLoaderAdapter;
+import org.apache.batik.swing.svg.SVGDocumentLoaderEvent;
 import org.apache.batik.util.XMLResourceDescriptor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -152,12 +158,46 @@ public class ExtraktLettersFromPath {
         // Display the document.
         canvas.setDocumentState(JSVGCanvas.ALWAYS_DYNAMIC);
         canvas.setDocument(doc);
+        // OK this schould be a DOCUMENT READY Listener...
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
             Logger.getLogger(ExtraktLettersFromPath.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // Set the JSVGCanvas listeners.
+        canvas.addSVGDocumentLoaderListener(new SVGDocumentLoaderAdapter() {
+            @Override
+            public void documentLoadingStarted(SVGDocumentLoaderEvent e) {
+                jFrame.setTitle("Document Loading...");
+            }
+            @Override
+            public void documentLoadingCompleted(SVGDocumentLoaderEvent e) {
+                jFrame.setTitle("Document Loaded.");
+            }
+        });
 
+        canvas.addGVTTreeBuilderListener(new GVTTreeBuilderAdapter() {
+            @Override
+            public void gvtBuildStarted(GVTTreeBuilderEvent e) {
+                jFrame.setTitle("Build Started...");
+            }
+            @Override
+            public void gvtBuildCompleted(GVTTreeBuilderEvent e) {
+                jFrame.setTitle("Build Done.");
+                jFrame.pack();
+            }
+        });
+
+        canvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter() {
+            @Override
+            public void gvtRenderingPrepare(GVTTreeRendererEvent e) {
+                jFrame.setTitle("Rendering Started...");
+            }
+            @Override
+            public void gvtRenderingCompleted(GVTTreeRendererEvent e) {
+                jFrame.setTitle(uri);
+            }
+        });
         MySVGletterPath.getAllSVGletterByIDs().stream().forEach((aMySVGletterPath) -> {
             MySVGwordPath.add2MyText(aMySVGletterPath.getId(), aMySVGletterPath);
         });

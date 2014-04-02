@@ -53,7 +53,7 @@ public class Lettercombiner_Horizontal {
                             = ctx.getGraphicsNode(nlText.item(i));
 //                    nlElem.setAttributeNS(null, "fill", "blue");
 
-                    System.err.println("neues Element: \t"
+                    System.err.println("new Element: \t"
                             + nlElem.getTextContent() + "\tAngle:\t" + angle);
                     double rectX = gnElement.getBounds().getCenterX();
 //                        + gnElement.getBounds().getWidth() / 2 

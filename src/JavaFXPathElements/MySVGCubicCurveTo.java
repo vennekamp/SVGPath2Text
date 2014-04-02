@@ -46,7 +46,7 @@ public class MySVGCubicCurveTo extends CubicCurveTo {
 
     public boolean isComparable(MySVGCubicCurveTo other){
         boolean rtnBool = Math.abs( this.distanceBetween()  
-                - other.distanceBetween() ) * MySVGletterPath.getFontSize() / Templateletter.getFontSize() < 15 ;
+                - other.distanceBetween() ) /** * MySVGletterPath.getFontSize() / Templateletter.getFontSize() **/ < 15 ;
         return rtnBool;     
     }
     
